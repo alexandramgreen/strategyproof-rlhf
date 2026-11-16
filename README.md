@@ -55,21 +55,6 @@ more certain than overlapping bands suggest.
 | `median_of_mles`, `mean_of_mles` | ablations without pessimism (used by the sanity checks) |
 | `mean_rule`, `median_rule`, `maxmin_rule` | direct access to reported preferences: the infinite-data limits |
 
-**PMoMLE implementation note.** The exact worst case over all medians is intractable.
-Each labeler's confidence ellipsoid is replaced by its bounding box, which makes the set
-of possible medians a box: the same coordinate-by-coordinate reasoning the paper's proofs
-use, and at least as cautious as the exact algorithm.
-
-## Calibrated defaults (from the sanity checks)
-
-- **Preference strength `theta_norm = 3`:** labels agree with the labeler's stronger
-  preference ~65% of the time, close to real annotator agreement.
-- **Confidence scale `conf_scale = 3`:** with the paper's radius taken literally (c = 1),
-  true preferences fall inside their confidence sets only ~9% of the time; with c = 3, 95–99%.
-- **Pessimism has a real cost:** with valid confidence sets, PMoMLE's truthful welfare loss
-  is ~0.2 at n = 3000 (pooled BTL ~0) and much larger at small n, which is why the
-  experiment uses n = 3000.
-
 ## Layout
 
 | File | What it does |
@@ -81,15 +66,3 @@ use, and at least as cautious as the exact algorithm.
 | `sprlhf/sanity.py` | end-to-end checks |
 | `tests/test_sprlhf.py` | unit checks |
 | `configs/base.yaml` | every setting with its default, documented |
-
-## Design decisions
-
-- **Exact utilities.** Every policy is summarized by its average feature vector
-  z_π = E_s E_{a~π} φ(s, a); every utility is ⟨θ_i, z_π⟩, computed exactly. Policies are stochastic.
-- **Paired randomness.** Each random source has its own stream keyed by (seed, name, index):
-  every algorithm sees identical data, a lie changes only the liar's labels, and changing one
-  setting leaves everything else fixed.
-- **Strategic labelers act independently**, know the population's true preferences (a
-  worst-case manipulator), and all use the same rule. The strategic set is a random subset
-  per seed, nested across fractions.
-- **Metrics always use true preferences,** never reported ones.
