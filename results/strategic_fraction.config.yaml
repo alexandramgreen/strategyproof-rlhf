@@ -1,0 +1,54 @@
+name: strategic_fraction
+seeds: 30
+seed_offset: 0
+n_jobs: -1
+env:
+  type: box
+  d: 6
+  n_contexts: 20
+  n_actions: 8
+  feature_norm: 1.0
+  scale_min: 0.5
+  rotate: false
+  features: null
+  context_weights: null
+labelers:
+  k: 11
+  theta_norm: 3.0
+  population: symmetric
+  center_norm: 0.4
+  spread: 0.6
+  thetas: null
+  strategic_fraction: 0.0
+  strategy: exaggerate
+  strategy_strength: 5.0
+data:
+  n_per_labeler: 3000
+estimation:
+  ridge: 0.001
+  conf_scale: 3.0
+  delta: 0.1
+algorithms:
+- pooled_btl
+- maxmin
+- psw
+- pmomle
+- mean_rule
+- median_rule
+algo_params: {}
+sweep:
+  env:
+  - type: box
+  - type: box
+    rotate: true
+  - type: random_features
+  labelers.strategy:
+  - exaggerate
+  - bury
+  labelers.strategic_fraction:
+  - 0.0
+  - 0.1
+  - 0.2
+  - 0.3
+  - 0.4
+  - 0.5

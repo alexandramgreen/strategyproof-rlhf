@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sprlhf"
+version = "0.1.0"
+description = "Contextual-bandit simulations of strategyproof RLHF (Pessimistic Median of MLEs vs. baselines)"
+requires-python = ">=3.10"
+dependencies = ["numpy", "scipy", "pandas", "matplotlib", "pyyaml", "cvxpy>=1.4", "joblib"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.setuptools.packages.find]
+include = ["sprlhf*"]

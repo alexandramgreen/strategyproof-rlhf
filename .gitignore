@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# Notebooks and OS clutter
+.ipynb_checkpoints/
+.DS_Store
+
+# Throwaway runs (keep results/ and figures/ from the real run)
+results/pilot/
+figures/pilot/

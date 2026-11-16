@@ -1,0 +1,19 @@
+# Welfare as the share of independent strategic labelers rises.
+# k = 11, so fractions 0, 0.1, ..., 0.5 mean 0-5 strategic labelers; plot against
+# actual_strategic_fraction (= m / k). Strategic labelers are a random subset per seed,
+# nested across fractions, all using the same rule:
+#   exaggerate: report 5x your true preferences (the paper's predicted best lie for PMoMLE)
+#   bury: oppose what others want on the features you care least about
+# mean_rule and median_rule are the infinite-data limits of PSW and PMoMLE.
+# ~2 min on 2 cores.
+name: strategic_fraction
+seeds: 30
+data: {n_per_labeler: 3000}
+algorithms: [pooled_btl, maxmin, psw, pmomle, mean_rule, median_rule]
+sweep:
+  env:
+    - {type: box}
+    - {type: box, rotate: true}
+    - {type: random_features}
+  labelers.strategy: [exaggerate, bury]
+  labelers.strategic_fraction: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5]
